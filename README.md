@@ -21,6 +21,7 @@ Review_Title (string) - Title of the review.
 Review (string) - Text of the review.
 
 Rating (int64) - Rating given by the reviewer.
+<img width="1356" alt="Screenshot 2024-04-20 at 4 16 10 PM" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/64df5a2a-1e5e-4b45-82bf-c927b8605f43">
 
 # 🌟 Getting Started with Intel Developer Cloud 🌟
 To prototype and build your GenAI solution on Intel Developer Cloud, you'll first need to create a free account. Here's how:
@@ -84,6 +85,7 @@ print(f'Public URL: {public_url}')
 ```
 ngrok http http://127.0.0.1:5000
 ```
+<img width="1128" alt="Screenshot 2024-04-20 at 4 33 02 PM" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/74dcc726-c9a3-43c1-8d16-b406d486e299">
 
 Domain from ngrok sever: https://2de2-164-67-154-31.ngrok-free.app
 # Community
