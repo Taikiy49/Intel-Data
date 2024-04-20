@@ -28,3 +28,5 @@ Rating (int64) - Rating given by the reviewer.
 This dataset is intended for various applications such as sentiment analysis, natural language processing, and AI decision-making processes related to car purchases. The dataset can be utilized to train machine learning models for tasks like review sentiment classification, recommendation systems, and more.
 
 For more details and usage examples, refer to the original source.
+
+
