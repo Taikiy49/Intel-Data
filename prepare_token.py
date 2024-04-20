@@ -1,7 +1,7 @@
 import os
 from getpass import getpass
 import predictionguard as pg
-from process_data import processed_data
+from process_data import ProcessData
 
 # from sentence_transformers import SentenceTransformer # these we will import later
 # import faiss # these we will import later
@@ -36,6 +36,13 @@ class ChatData:
         print(result['choices'][0]['message']['content'].split('\n')[0])
 
 if __name__ == "__main__":
+    process_data = ProcessData()
+    process_data.processed_data()
+    process_data.run()
+
+    # lets see if this works...
+    processed_data = process_data.run()
     chat_data = ChatData(processed_data)
     chat_data._create_connection()
     chat_data.run()
+    

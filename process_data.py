@@ -23,15 +23,12 @@ class ProcessData:
     def run(self):
         vehicle_list = []
         self._dataset = self._dataset.map(self.format_dataset)
-        # for i in range(self._dataset.num_rows):
-        for i in range(5):
+        # for i in range(5):
+        for i in range(self._dataset.num_rows):
             info_dict = {}
             info_dict[self._dataset["Vehicle_Title"][i]] = self._dataset["Review"][i]
             vehicle_list.append(info_dict)
-        print(vehicle_list)
+        return vehicle_list
 
-if __name__ == "__main__":
-    process_data = ProcessData()
-    process_data.processed_data()
-    process_data.run()
+
 
