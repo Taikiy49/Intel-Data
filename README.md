@@ -9,9 +9,6 @@ Contains 37,000 rows of training data.
 
 Columns
 
-Unnamed: 0.1 (int64) - Numeric identifier.
-
-Unnamed: 0 (int64) - Numeric identifier.
 
 Review_Date (string) - Date of the review.
 
