@@ -38,11 +38,10 @@ class ChatData:
 if __name__ == "__main__":
     process_data = ProcessData()
     process_data.processed_data()
-    process_data.run()
-
     # lets see if this works...
-    processed_data = process_data.run()
-    chat_data = ChatData(processed_data)
+    data_list = process_data.run()
+    print(data_list)
+    chat_data = ChatData(data_list)
     chat_data._create_connection()
     chat_data.run()
     
