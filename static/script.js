@@ -12,6 +12,7 @@ function sendMessage() {
         }
     };
     xhr.send(JSON.stringify({ user_input: userInput }));
+    document.getElementById('user-input').value = '';
 }
 
 function displayMessage(userInput, botResponse) {
