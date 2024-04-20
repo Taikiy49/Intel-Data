@@ -24,7 +24,7 @@ class ProcessData:
         vehicle_list = []
         self._dataset = self._dataset.map(self.format_dataset)
         # for i in range(self._dataset.num_rows):
-        for i in range(5):
+        for i in range(3):
             info_dict = {}
             info_dict['role'] = self._dataset["Vehicle_Title"][i]
             info_dict['content'] = self._dataset["Review"][i]
