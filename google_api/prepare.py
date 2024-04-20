@@ -5,31 +5,34 @@ from datasets import load_dataset
 # Configure the API key for Google Generative AI
 genai.configure(api_key="AIzaSyApdIIDxko0YfMZ_xMatRdFSfXN2eaY8WI")
 
+# Unsplash API credentials
+UNSPLASH_ACCESS_KEY = "YOUR_UNSPLASH_ACCESS_KEY"
+
 # Set up the model
 generation_config = {
-  "temperature": 1,
-  "top_p": 0.95,
-  "top_k": 0,
-  "max_output_tokens": 8192,
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 0,
+    "max_output_tokens": 8192,
 }
 
 safety_settings = [
-  {
-    "category": "HARM_CATEGORY_HARASSMENT",
-    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-  },
-  {
-    "category": "HARM_CATEGORY_HATE_SPEECH",
-    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-  },
-  {
-    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-  },
-  {
-    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-  },
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+    },
 ]
 
 model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
@@ -41,69 +44,65 @@ car_reviews_dataset = load_dataset("florentgbelidji/car-reviews")
 user_input = input("")  # Prompt the user to write something
 convo = model.start_chat(history=[])
 
-# Function to book a test drive
-def book_test_drive(make, model, year, date, time):
-    # Your test drive booking API integration here
-    return f"Test drive booked for {make} {model} {year} on {date} at {time}."
-
-# Function to find nearby car dealerships
-def find_nearby_dealerships(location):
-    # Your nearby dealerships API integration here
-    return f"Nearest car dealerships to {location} are: Dealership A, Dealership B, Dealership C."
-
-# Function to provide car buying advice
-def provide_car_buying_advice(budget):
-    # Your car buying advice API integration here
-    return "Car buying advice: Consider fuel efficiency, safety features, and resale value when choosing a car within your budget."
 
 # Function to interact with the chatbot
 def chatbot_interaction(user_input):
-    convo = model.start_chat(history=[])
-    convo.send_message(user_input)
-    return convo.last.text
+    if "car review" in user_input.lower():
+        return None
+    else:
+        convo = model.start_chat(history=[])
+        convo.send_message(user_input)
+        return convo.last.text
+
 
 # Main function
 def main():
     print('-' * 60)
-    print("Welcome to Car Assistant")
+    print("Welcome to the Car Review AI Generator!")
+    print("We will help you find reviews about the cars you like!")
+    print('Type "!review" to start your first search!')
+    print('Type "!help" for more information!')
     print('-' * 60)
     while True:
-        user_input = input("[USER] You: ")
-        chatbot_response = chatbot_interaction(user_input)
-        print("[CAR ASSISTANT] Bot: ", chatbot_response)
-        
-
-        if "test drive" in user_input:
-            make = input("Please specify the car make: ").capitalize()
-            model = input("Please specify the car model: ").capitalize()
-            year = input("Please specify the car year: ")
-            date = input("Please specify the date (MM/DD/YYYY): ")
-            time = input("Please specify the time: ")
-            print(book_test_drive(make, model, year, date, time))
-        elif "dealership" in user_input:
-            location = input("Please specify the location: ")
-            print(find_nearby_dealerships(location))
-        elif "buying advice" in user_input:
-            budget = input("Please specify your budget: ")
-            print(provide_car_buying_advice(budget))
-        elif "car review" in user_input:
-            make = input("Please specify the car make: ").capitalize()
-            car_review = get_car_review(make)
+        user_input = input("[USER]: ")
+        if "!review" in user_input.lower():
+            make = input("Please specify the car company: ").capitalize()
+            year = input("Please specify the car year: ").capitalize()
+            word = input("What is that one word that you are looking for in a car? ").capitalize()
+            car_review = get_car_review(make, year, word)
             if car_review:
-                print(f"Car review for {make}")
+                print(f"You described a {year} {make} as {word}")
                 print(car_review)
+                get_car_image(make, year)
             else:
-                print("Car review not found.")
-        elif user_input.lower() == "exit":
-            print("Goodbye!")
-            break
+                print("Car review was not found...")
+        elif "!help" in user_input.lower():
+            print("You have reached the help desk!")
+        else:
+            chatbot_response = chatbot_interaction(user_input)
+            if chatbot_response:
+                print("[AI ASSISTANT]: ", chatbot_response)
 
-def get_car_review(make):
-    car_review = car_reviews_dataset["train"].filter(lambda example: make in example["Vehicle_Title"])
+
+def get_car_review(make, year, word):
+    car_review = car_reviews_dataset["train"].filter(lambda example: make in example["Vehicle_Title"] and year in example["Vehicle_Title"] and word in example["Review"])
     if len(car_review) > 0:
         return car_review[0]["Review"]
     else:
         return None
 
+
+def get_car_image(make, year):
+    # Fetch a random image from Unsplash
+    url = f"https://api.unsplash.com/photos/random?query={make} {year}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        image_data = response.json()
+        image_url = image_data['urls']['regular']
+        print(f"Random image of a {year} {make}: {image_url}")
+    else:
+        print("Failed to fetch the image.")
+
+
 if __name__ == "__main__":
-  main()
+    main()

@@ -9,6 +9,7 @@ body {
     justify-content: center;
     height: 100vh;
 }
+
 .chat-container {
     width: 400px;
     border: 1px solid #ccc;
@@ -16,17 +17,21 @@ body {
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .chat-header {
     background-color: #007bff;
     color: #fff;
     padding: 10px;
     text-align: center;
 }
+
 .chat-messages {
     padding: 10px;
-    max-height: 500px; /* Increase the max height */
+    max-height: 500px;
+    /* Increase the max height */
     overflow-y: auto;
 }
+
 .user-message {
     background-color: #f0f0f0;
     color: #333;
@@ -36,6 +41,7 @@ body {
     max-width: 70%;
     word-wrap: break-word;
 }
+
 .bot-message {
     background-color: #007bff;
     color: #fff;
@@ -46,11 +52,13 @@ body {
     word-wrap: break-word;
     align-self: flex-end;
 }
+
 .input-container {
     display: flex;
     padding: 10px;
     background-color: #f9f9f9;
 }
+
 .input-container input[type="text"] {
     flex: 1;
     padding: 5px 10px;
@@ -58,6 +66,7 @@ body {
     border-radius: 5px;
     margin-right: 10px;
 }
+
 .input-container input[type="submit"] {
     padding: 5px 10px;
     background-color: #007bff;
@@ -66,7 +75,9 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
+
 .big-chat-box {
-    height: 500px; /* Set the height of the big chat box */
+    height: 500px;
+    /* Set the height of the big chat box */
     overflow-y: auto;
 }

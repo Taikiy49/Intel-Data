@@ -1,6 +1,6 @@
 function sendMessage() {
     var userInput = document.getElementById('user-input').value;
-    
+
     // Send AJAX request to Flask server
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/get_bot_response', true);
@@ -17,14 +17,14 @@ function sendMessage() {
 
 function displayMessage(userInput, botResponse) {
     var messageHistory = document.getElementById('message-history');
-    
+
     var userMessageDiv = document.createElement('div');
     userMessageDiv.className = 'user-message';
-    userMessageDiv.textContent = 'User: ' + userInput;
+    userMessageDiv.textContent = '[USER]: ' + userInput;
     messageHistory.appendChild(userMessageDiv);
 
     var botMessageDiv = document.createElement('div');
     botMessageDiv.className = 'bot-message';
-    botMessageDiv.textContent = 'Bot: ' + botResponse;
+    botMessageDiv.textContent = '[AI ASSISTANT]: ' + botResponse;
     messageHistory.appendChild(botMessageDiv);
 }
