@@ -1,37 +1,29 @@
-// script.js
-
 function sendMessage() {
     var userInput = document.getElementById('user-input').value;
-    displayUserMessage(userInput);
-
+    
     // Send AJAX request to Flask server
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/get_bot_response', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function () {
         if (xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
-            displayBotMessage(response.bot_response);
+            displayMessage(userInput, response.bot_response);
         }
     };
-    xhr.send('user_input=' + userInput);
+    xhr.send(JSON.stringify({ user_input: userInput }));
 }
 
-function displayUserMessage(message) {
-    var chatMessages = document.getElementById('chat-messages');
+function displayMessage(userInput, botResponse) {
+    var messageHistory = document.getElementById('message-history');
+    
     var userMessageDiv = document.createElement('div');
     userMessageDiv.className = 'user-message';
-    userMessageDiv.textContent = message;
-    chatMessages.appendChild(userMessageDiv);
-    document.getElementById('user-input').value = '';
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
+    userMessageDiv.textContent = 'User: ' + userInput;
+    messageHistory.appendChild(userMessageDiv);
 
-function displayBotMessage(message) {
-    var chatMessages = document.getElementById('chat-messages');
     var botMessageDiv = document.createElement('div');
     botMessageDiv.className = 'bot-message';
-    botMessageDiv.textContent = message;
-    chatMessages.appendChild(botMessageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    botMessageDiv.textContent = 'Bot: ' + botResponse;
+    messageHistory.appendChild(botMessageDiv);
 }
