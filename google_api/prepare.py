@@ -33,7 +33,7 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
                               generation_config=generation_config,
                               safety_settings=safety_settings)
 
-user_input = input("You: ")  # Prompt the user to write something
+user_input = input("")  # Prompt the user to write something
 convo = model.start_chat(history=[])
 
 convo.send_message(user_input)
