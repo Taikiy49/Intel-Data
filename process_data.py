@@ -20,16 +20,19 @@ class ProcessData:
     def tokenize_function(self, examples):
         return self.tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
 
+
+
     def run(self):
         vehicle_list = []
         self._dataset = self._dataset.map(self.format_dataset)
         # for i in range(self._dataset.num_rows):
-        for i in range(3):
-            info_dict = {}
-            info_dict['role'] = 'user'
-            info_dict['content'] = f'{self._dataset["Vehicle_Title"][i]}: {self._dataset["Review"][i]}'
-            vehicle_list.append(info_dict)
-        return vehicle_list
+        # for i in range(3):
+        #     info_dict = {}
+        #     info_dict['role'] = 'user'
+        #     info_dict['content'] = f'{self._dataset["Vehicle_Title"][i]}: {self._dataset["Review"][i]}'
+        #     vehicle_list.append(info_dict)
+        # return vehicle_list
+        return self._dataset 
 
 
 
