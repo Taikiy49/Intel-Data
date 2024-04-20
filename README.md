@@ -9,12 +9,19 @@ Contains 37,000 rows of training data.
 Columns
 
 Unnamed: 0.1 (int64) - Numeric identifier.
+
 Unnamed: 0 (int64) - Numeric identifier.
+
 Review_Date (string) - Date of the review.
+
 Author_Name (string) - Name of the review author.
+
 Vehicle_Title (string) - Title of the vehicle.
+
 Review_Title (string) - Title of the review.
+
 Review (string) - Text of the review.
+
 Rating (int64) - Rating given by the reviewer.
 
 # Community
