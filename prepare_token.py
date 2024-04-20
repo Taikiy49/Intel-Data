@@ -1,7 +1,7 @@
 import os
 from getpass import getpass
 import predictionguard as pg
-from data_file import processed_data
+from process_data import processed_data
 
 # from sentence_transformers import SentenceTransformer # these are imported later
 # import faiss # these are imported later
