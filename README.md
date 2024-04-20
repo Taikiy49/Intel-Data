@@ -4,13 +4,10 @@ This repository contains the Car Reviews Dataset, curated by [florentgbelidji/ca
 The dataset can be employed to fine-tune AI models for making decisions related to car purchases. Potential inputs for such models include price, model, year, condition (used or new), and number of doors.
 
 # Files and Versions
-Dataset Viewer
-View Dataset
-Auto-converted to Parquet
-Split (1)
-Train (37k rows)
 Contains 37,000 rows of training data.
+
 Columns
+
 Unnamed: 0.1 (int64) - Numeric identifier.
 Unnamed: 0 (int64) - Numeric identifier.
 Review_Date (string) - Date of the review.
