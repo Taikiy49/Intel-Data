@@ -99,7 +99,7 @@ def main():
             break
 
 def get_car_review(make):
-    car_review = car_reviews_dataset["train"].filter(lambda example: example["Vehicle_Title"])
+    car_review = car_reviews_dataset["train"].filter(lambda example: make in example["Vehicle_Title"])
     if len(car_review) > 0:
         return car_review[0]["Review"]
     else:
