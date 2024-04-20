@@ -35,12 +35,22 @@ def index():
 def get_bot_response():
     data = request.json  
     user_input = data['user_input']  # Input from html file
-    # Process user input and generate bot response
+    bot_response = chatbot_interaction(user_input)
+    return jsonify({'bot_response': bot_response})
+
+def book_test_drive(make, model, year, date, time):
+    return f"Test drive booked for {make} {model} {year} on {date} at {time}."
+
+def find_nearby_dealerships(location):
+    return f"Nearest car dealerships to {location} are: Dealership A, Dealership B, Dealership C."
+
+def provide_car_buying_advice(budget):
+    return "Car buying advice: Consider fuel efficiency, safety features, and resale value when choosing a car within your budget."
+
+def chatbot_interaction(user_input):
     convo = model.start_chat(history=[])
     convo.send_message(user_input)
-    bot_response = convo.last.text
-    print(user_input)
-    return jsonify({'bot_response': bot_response}) # Output to html
+    return convo.last.text
 
 if __name__ == '__main__':
     app.run(debug=True)
