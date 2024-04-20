@@ -80,6 +80,11 @@ from pyngrok import ngrok
 public_url = ngrok.connect(5000)
 print(f'Public URL: {public_url}')
 ```
+
+```
+ngrok http http://127.0.0.1:5000
+```
+
 Domain from ngrok sever: https://2de2-164-67-154-31.ngrok-free.app
 # Community
 This dataset is intended for various applications such as sentiment analysis, natural language processing, and AI decision-making processes related to car purchases. The dataset can be utilized to train machine learning models for tasks like review sentiment classification, recommendation systems, and more.
