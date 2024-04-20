@@ -1,7 +1,13 @@
 from datasets import load_dataset
-from transformers import pipeline, AutoTokenizer
+from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
+device = "cpu" #"xpu" if torch.xpu.is_available() else "cpu"
+model_name = "microsoft/phi-1_5"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer.pad_token = tokenizer.eos_token
+
+model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 class ProcessData:
     def __init__(self):
         self._dataset = None
@@ -15,10 +21,11 @@ class ProcessData:
         review = f"### Review\n{sample['Review']}" 
         rating = f"### Rating\n{sample['Rating']}"
         prompt = "\n\n".join([i for i in [vehicle_title, review, rating] if i is not None])
-        sample["Author_Name"] = f"{prompt}{self.tokenizer.eos_token}"
+        sample["text"] = f"{prompt}{self.tokenizer.eos_token}"
+        return sample
 
     def tokenize_function(self, examples):
-        return self.tokenizer(examples["Vehicle_Title"], padding="max_length", truncation=True, max_length=512)
+        return self.tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
 
     def run(self):
         self._dataset = self._dataset.map(self.format_dataset)
@@ -27,8 +34,62 @@ class ProcessData:
         train_test_split = tokenized_dataset.train_test_split(test_size=0.1, seed=42)
         train_dataset = train_test_split["train"]
         test_dataset = train_test_split["test"]
-        print(train_dataset)
-        print(test_dataset)
+        
+    
+from peft import get_peft_model, LoraConfig, TaskType
+
+config = LoraConfig(
+    r=16,
+    lora_alpha=2,
+    target_modules=["fc1", "fc2","Wqkv", "out_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM"
+)
+
+model = get_peft_model(model, config)
+model.print_trainable_parameters()
+
+
+from transformers import TrainingArguments
+
+training_args = TrainingArguments(
+        output_dir="output",
+        bf16=True,
+        use_ipex=True,
+        max_grad_norm=0.6,
+        weight_decay=0.01,
+        group_by_length=True,
+        optim="adamw_hf",
+        per_device_train_batch_size=2,
+        gradient_accumulation_steps=2,
+        learning_rate=2e-4,
+        lr_scheduler_type="cosine",
+        save_strategy="epoch",
+        logging_steps=30,
+        max_steps=200,
+        #num_train_epochs=3,
+        report_to="wandb"
+    )
+
+from transformers import DataCollatorForLanguageModeling 
+from transformers import Trainer
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "0"  # prevent warnings from training on process forking
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=test_dataset,
+    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False)
+)
+
+if torch.xpu.is_available():
+    torch.xpu.empty_cache()
+results = trainer.train()
+
+trainer.save_model("./fine_tuned_model")
+
 
 if __name__ == "__main__":
     process_data = ProcessData()
