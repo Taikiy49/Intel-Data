@@ -24,7 +24,7 @@ body {
 }
 .chat-messages {
     padding: 10px;
-    max-height: 300px;
+    max-height: 500px; /* Increase the max height */
     overflow-y: auto;
 }
 .user-message {
@@ -66,11 +66,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
-.generated-text-container {
-    width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+.big-chat-box {
+    height: 500px; /* Set the height of the big chat box */
+    overflow-y: auto;
 }

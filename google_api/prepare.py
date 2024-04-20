@@ -38,6 +38,8 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
 
 # Load car reviews dataset
 car_reviews_dataset = load_dataset("florentgbelidji/car-reviews")
+user_input = input("")  # Prompt the user to write something
+convo = model.start_chat(history=[])
 
 # Function to book a test drive
 def book_test_drive(make, model, year, date, time):
