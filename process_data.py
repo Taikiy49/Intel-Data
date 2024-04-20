@@ -18,7 +18,7 @@ class ProcessData:
         sample["Author_Name"] = f"{prompt}{self.tokenizer.eos_token}"
 
     def tokenize_function(self, examples):
-        return self.tokenizer(examples["Author_Name"], padding="max_length", truncation=True, max_length=512)
+        return self.tokenizer(examples["Vehicle_Title"], padding="max_length", truncation=True, max_length=512)
 
     def run(self):
         self._dataset = self._dataset.map(self.format_dataset)
