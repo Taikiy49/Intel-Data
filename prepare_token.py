@@ -3,8 +3,8 @@ from getpass import getpass
 import predictionguard as pg
 from process_data import processed_data
 
-# from sentence_transformers import SentenceTransformer # these are imported later
-# import faiss # these are imported later
+# from sentence_transformers import SentenceTransformer # these we will import later
+# import faiss # these we will import later
 
 class ChatData:
     def __init__(self, data):
@@ -15,7 +15,7 @@ class ChatData:
         os.environ['PREDICTIONGUARD_TOKEN'] = self._pg_access_token
 
     def run(self):
-        # self._data_set
+        # self._data_set will replace messages later!
         messages = [
         {
         "role": "system",
