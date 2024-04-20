@@ -49,6 +49,7 @@ print(f"GPU is: {torch.xpu.get_device_name()}")
 # Setting up the Environment ⚙️
 ```
 pip install flask ngrok
+pip install dataset
 ```
 
 ```
