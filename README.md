@@ -1,4 +1,4 @@
-## LA Hacks 2024
+## LA Hacks 2024 - Sponsors-Intel
 
 # Overview
 This repository contains the Car Reviews Dataset, curated by [florentgbelidji/car-reviews](https://huggingface.co/datasets/florentgbelidji/car-reviews) from Hugging Face. The dataset comprises reviews of various car models along with associated metadata such as review date, author name, vehicle title, review title, review text, and rating. 
