@@ -3,7 +3,7 @@
 This repository contains the Car Reviews Dataset, curated by [florentgbelidji/car-reviews](https://huggingface.co/datasets/florentgbelidji/car-reviews) from Hugging Face. The dataset comprises reviews of various car models along with associated metadata such as review date, author name, vehicle title, review title, review text, and rating. 
 The dataset can be employed to fine-tune AI models for making decisions related to car purchases. Potential inputs for such models include price, model, year, condition (used or new), and number of doors.
 
-# Files and Versions
+# Dataset 
 Contains 37,000 rows of training data.
 
 Columns
