@@ -82,7 +82,9 @@ def main():
                 time.sleep(1)
                 print("---------- We selected a random car review for you! ----------")
                 time.sleep(1)
-                print(car_review[0])
+                print(f'{car_review[0]}')
+                print('-' * 60 + '\n')
+          
             else:
                 print("Car review was not found...")
         elif "!help" in user_input.lower():
@@ -100,8 +102,6 @@ def get_car_review(year, word):
         return [car_review[0]["Review"], num_car_reviews]
     else:
         return [None, 0]
-
-
 
 if __name__ == "__main__":
     main()
