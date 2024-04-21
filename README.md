@@ -22,6 +22,7 @@ Review_Title (string) - Title of the review.
 Review (string) - Text of the review.
 
 Rating (int64) - Rating given by the reviewer.
+
 <img width="1356" alt="Screenshot 2024-04-20 at 4 16 10 PM" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/64df5a2a-1e5e-4b45-82bf-c927b8605f43">
 
 # 🌟 Getting Started with Intel Developer Cloud 🌟
@@ -87,19 +88,30 @@ print(f'Public URL: {public_url}')
 ngrok http http://127.0.0.1:5000
 ```
 
+
 Summarize the reviews by hitting summarize button below:
+
 
 <img width="1034" alt="summarize_all_reviews" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/933c5b71-e3b0-4dce-8dc7-7659a62d4a0d">
 
 
-Keep all positive reviews only, for example:
+
+
+
+Keep all positive reviews only, for example
+
 
 <img width="891" alt="positive_reviews" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/f1850ee4-318f-49a2-bcea-de331860364f">
 
 
-Interact with AI Gemini chatbot:
+
+
+
+Interact with AI Gemini chatbot
+
 
 <img width="739" alt="Car_Review" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/10e64c59-1aec-497e-993d-5408b8f76acd">
+
 
 Domain from ngrok sever: https://2de2-164-67-154-31.ngrok-free.app
 # Community
