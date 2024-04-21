@@ -1,6 +1,6 @@
-## LA Hacks 2024 
+## LA Hacks 2024
+[https://lahacks.com/live/home]
 
-genai.configure(api_key="AIzaSyApdIIDxko0YfMZ_xMatRdFSfXN2eaY8WI")
 # Overview
 This repository contains the Car Reviews Dataset, curated by [florentgbelidji/car-reviews](https://huggingface.co/datasets/florentgbelidji/car-reviews) from Hugging Face. The dataset comprises reviews of various car models along with associated metadata such as review date, author name, vehicle title, review title, review text, and rating. 
 In addition to traditional machine learning tasks, the Car Reviews Dataset can be leveraged for advanced natural language processing (NLP) tasks using powerful Large Language Models (LLMs) like LLMA2. These models excel in tasks such as sentiment analysis, text generation, and language understanding. By fine-tuning LLMA2 on the dataset, users can extract deeper insights from the reviews and enhance decision-making processes related to car purchases. The web application is implemented by HTML,CSS, Flask (back-end) and Google Generative AI (Gemini) model for text generation in order to interacts with a dataset for car reviews.
