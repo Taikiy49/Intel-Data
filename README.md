@@ -84,9 +84,13 @@ public_url = ngrok.connect(5000)
 print(f'Public URL: {public_url}')
 ```
 
+Local server can be accessible via the domain provided by Ngrok by: 
+
 ```
 ngrok http http://127.0.0.1:5000
 ```
+
+Domain from ngrok sever: [https://2de2-164-67-154-31.ngrok-free.app]
 
 
 Summarize the reviews by hitting summarize button below:
@@ -98,7 +102,7 @@ Summarize the reviews by hitting summarize button below:
 
 
 
-Keep all positive reviews only, for example
+Keep all positive reviews only, for example: 
 
 
 <img width="891" alt="positive_reviews" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/f1850ee4-318f-49a2-bcea-de331860364f">
@@ -107,13 +111,12 @@ Keep all positive reviews only, for example
 
 
 
-Interact with AI Gemini chatbot
+Interact with AI Gemini chatbot:
 
 
 <img width="739" alt="Car_Review" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/10e64c59-1aec-497e-993d-5408b8f76acd">
 
 
-Domain from ngrok sever: https://2de2-164-67-154-31.ngrok-free.app
 # Community
 This dataset is intended for various applications such as sentiment analysis, natural language processing, and AI decision-making processes related to car purchases. The dataset can be utilized to train machine learning models for tasks like review sentiment classification, recommendation systems, and more.
 
