@@ -58,22 +58,20 @@ def chatbot_interaction(user_input):
 # Main function
 def main():
     print('-' * 60)
-    print("Welcome to the Car Review AI Generator!")
-    print("We will help you find reviews about the cars you like!")
+    print("Welcome to the Toyota Review AI Generator!")
+    print("We will help you find reviews about your favorite Toyota!")
     print('Type "!review" to start your first search!')
     print('Type "!help" for more information!')
     print('-' * 60)
     while True:
         user_input = input("[USER]: ")
         if "!review" in user_input.lower():
-            make = input("Please specify the car company: ").capitalize()
             year = input("Please specify the car year: ").capitalize()
             word = input("What is that one word that you are looking for in a car? ").capitalize()
-            car_review = get_car_review(make, year, word)
+            car_review = get_car_review(year, word)
             if car_review:
-                print(f"You described a {year} {make} as {word}")
+                print(f"You described a {year} Toyota as: {word}")
                 print(car_review)
-                get_car_image(make, year)
             else:
                 print("Car review was not found...")
         elif "!help" in user_input.lower():
@@ -84,24 +82,13 @@ def main():
                 print("[AI ASSISTANT]: ", chatbot_response)
 
 
-def get_car_review(make, year, word):
-    car_review = car_reviews_dataset["train"].filter(lambda example: make in example["Vehicle_Title"] and year in example["Vehicle_Title"] and word in example["Review"])
+def get_car_review(year, word):
+    car_review = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"] and word in example["Review"])
     if len(car_review) > 0:
         return car_review[0]["Review"]
     else:
         return None
 
-
-def get_car_image(make, year):
-    # Fetch a random image from Unsplash
-    url = f"https://api.unsplash.com/photos/random?query={make} {year}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        image_data = response.json()
-        image_url = image_data['urls']['regular']
-        print(f"Random image of a {year} {make}: {image_url}")
-    else:
-        print("Failed to fetch the image.")
 
 
 if __name__ == "__main__":
