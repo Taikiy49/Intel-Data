@@ -2,13 +2,14 @@
 <html>
 
 <head>
-    <title>Car Review Chatbot</title>
+    <title>Toyota Review Chatbot</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
             background-color: #282c34;
             color: #ffffff;
             padding: 20px;
+            position: relative;
         }
 
         #popup,
@@ -46,6 +47,18 @@
             display: block;
             margin-bottom: 5px;
         }
+
+        #carImage {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: auto;
+        }
+
+        .review {
+            margin-bottom: 10px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -68,7 +81,9 @@
                     contentType: "application/json",
                     data: JSON.stringify({ model: model, year: year }),
                     success: function (response) {
-                        $("#chatbotResponse").text(response.message);
+                        var reviews = response.message.split(', ');
+                        // Wrap each review in a <div> with class "review" to add margin-bottom
+                        $("#chatbotResponse").html(reviews.map(review => `<div class="review">${review}</div>`));
                         $("#popup").hide();
                     },
                     error: function (xhr, status, error) {
@@ -93,12 +108,29 @@
                     }
                 });
             });
+
+            $("#summarizeButton").click(function () {
+                var reviews = $(".review").text();
+                $.ajax({
+                    type: "POST",
+                    url: "/summarize_reviews",
+                    contentType: "application/json",
+                    data: JSON.stringify({ reviews: reviews }),
+                    success: function (response) {
+                        $("#chatbotResponse").text(response.message);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
         });
     </script>
 </head>
 
 <body>
-    <h1>Car Review Chatbot</h1>
+    <h1>Toyota Review Chatbot</h1>
+    <p>Welcome to the Car Review Chatbot! Feel free to use our AI assistant to find more about Toyota cars.</p>
     <button id="findButton">Find Car Reviews</button>
 
     <div id="popup" style="display: none;">
@@ -106,7 +138,7 @@
             <button id="closePopup">Close</button>
         </div>
         <div>
-            <label for="model">Model:</label>
+            <label for="model">Toyota Model:</label>
             <input type="text" id="model" name="model"><br><br>
             <label for="year">Year:</label>
             <input type="text" id="year" name="year"><br><br>
@@ -117,10 +149,14 @@
     <div id="chatbotResponse"></div>
 
     <div>
-        <label for="chatbotInput">Chatbot Input:</label>
+        <label for="chatbotInput">AI Assistance:</label>
         <input type="text" id="chatbotInput" name="chatbotInput">
         <button id="chatbotSubmit">Submit</button>
     </div>
+
+    <button id="summarizeButton">Summarize</button>
+
+    <img id="carImage" src="car.png" alt="Car_Image">
 </body>
 
 </html>

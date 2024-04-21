@@ -41,19 +41,49 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
 car_reviews_dataset = load_dataset("florentgbelidji/car-reviews")
 
 # Helper function to query the database
-def get_car_review(year, word):
-    car_review = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"].split()[:] and (word in example["Review"].split()[:] or word.capitalize() in example["Review"].split()[:]))
-    num_car_reviews = len(car_review)
-    if len(car_review) > 0:
-        return [car_review[0]["Review"], num_car_reviews]
-    else:
-        return [None, 0]
+def get_car_reviews(year, word):
+    car_reviews = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"].split()[:] and (word in example["Review"].split()[:] or word.capitalize() in example["Review"].split()[:]))
+    reviews = []
+    for review in car_reviews:
+        reviews.append(review["Review"])
+    return reviews
+
 
 # Function to handle regular chatbot interactions
 def chatbot_interaction(user_input):
     convo = model.start_chat(history=[])
     convo.send_message(user_input)
     return convo.last.text
+
+# Route to summarize the reviews
+from flask import Flask, request, jsonify
+import google.generativeai as genai
+
+app = Flask(__name__)
+
+# Configure the API key for Google Generative AI
+genai.configure(api_key="YOUR_API_KEY")
+
+# Set up the model
+model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
+
+@app.route('/summarize_reviews', methods=['POST'])
+def summarize_reviews():
+    # Extract reviews from the request
+    data = request.json
+    reviews = data.get('reviews', [])
+
+    # Concatenate the reviews into a single string
+    reviews_text = '\n'.join(reviews)
+
+    # Append the prompt for summarization
+    prompt = f"{reviews_text}\n\nsummarize for me"
+
+    # Generate summary using Gemini AI
+    summary = model.start_chat(history=[]).send_message(prompt).last.text
+
+    return jsonify({'message': summary})
+
 
 @app.route('/')
 def index():
@@ -74,12 +104,14 @@ def query_database():
     model = data.get('model', '')
     year = data.get('year', '')
     
-    car_review, num_car_reviews = get_car_review(year, model)
+    car_reviews = get_car_reviews(year, model)
 
-    if car_review is not None:
-        return jsonify({'message': f"Found {num_car_reviews} reviews for {year} {model}: {car_review}"})
+    if car_reviews:
+        num_car_reviews = len(car_reviews)
+        return jsonify({'message': f"Found {num_car_reviews} reviews for {year} {model}: {', '.join(car_reviews)}"})
     else:
         return jsonify({'message': f"No reviews found for {year} {model}"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

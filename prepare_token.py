@@ -1,5 +1,6 @@
 import os
 import predictionguard as pg
+from gensim.summarization import summarize # AI THAT SUMMARIZES WORD FOR WORD LOL
 from sentence_transformers import SentenceTransformer
 from sklearn.neighbors import NearestNeighbors
 
