@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import google.generativeai as genai
 from datasets import load_dataset
+from collections import Counter
 
 app = Flask(__name__)
 
@@ -56,24 +57,6 @@ def chatbot_interaction(user_input):
     return convo.last.text
 
 
-@app.route('/summarize_reviews', methods=['POST'])
-def summarize_reviews():
-    # Extract reviews from the request
-    data = request.json
-    reviews = data.get('reviews', [])
-
-    # Concatenate the reviews into a single string
-    reviews_text = '\n'.join(reviews)
-
-    # Append the prompt for summarization
-    prompt = f"{reviews_text}\n\nsummarize for me"
-
-    # Generate summary using Gemini AI
-    summary = model.start_chat(history=[]).send_message(prompt).last.text
-
-    return jsonify({'message': summary})
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -89,6 +72,7 @@ def chatbot():
 
 @app.route('/query_database', methods=['POST'])
 def query_database():
+    count = 0
     data = request.json
     model = data.get('model', '')
     year = data.get('year', '')
@@ -96,11 +80,34 @@ def query_database():
     car_reviews = get_car_reviews(year, model)
 
     if car_reviews:
-        num_car_reviews = len(car_reviews)
-        return jsonify({'message': f"Found {num_car_reviews} reviews for {year} {model}: {', '.join(car_reviews)}"})
+        return jsonify({'message': f"{', '.join(car_reviews)}"})
     else:
         return jsonify({'message': f"No reviews found for {year} {model}"})
 
+@app.route('/summarize_reviews', methods=['POST'])
+def summarize_reviews():
+    data = request.json
+    reviews = data.get('reviews', [])
+    reviews_text = '\n'.join(reviews)
+    chatbot_summary = chatbot_interaction(f"{reviews_text}\n\nsummarize for me in simple words")
+    return jsonify({'message': chatbot_summary})
 
+@app.route('/positive_reviews', methods=['POST'])
+def positive_reviews():
+    data = request.json
+    reviews = data.get('reviews', [])
+    reviews_text = '\n'.join(reviews)
+    chatbot_summary = chatbot_interaction(f"{reviews_text}\n\nFind me all of the positive reviews and leave out all the negative reviews.")
+    return jsonify({'message': chatbot_summary})
+
+@app.route('/negative_reviews', methods=['POST'])
+def negative_reviews():
+    data = request.json
+    reviews = data.get('reviews', [])
+    reviews_text = '\n'.join(reviews)
+    chatbot_summary = chatbot_interaction(f"{reviews_text}\n\nFind me all of the negative reviews and leave out all of the postive reviews.")
+    return jsonify({'message': chatbot_summary})
+    
+    
 if __name__ == "__main__":
     app.run(debug=True)

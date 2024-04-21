@@ -10,17 +10,39 @@
             color: #ffffff;
             padding: 20px;
             position: relative;
+            border: 2px solid #61dafb;
+            /* Added border */
+            border-radius: 10px;
+            /* Added border radius */
+            max-width: 800px;
+            /* Added max-width */
+            margin: 0 auto;
+            /* Center the content */
         }
 
         #popup,
         #chatbotResponse {
+            font-family: 'Courier New', Courier, monospace;
             background-color: #1e2125;
             padding: 20px;
             margin-bottom: 20px;
+            border: 1px solid #61dafb;
+            /* Added border */
+            border-radius: 5px;
+            /* Added border radius */
+        }
+
+        .feature-box {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #4fa3d1;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
         }
 
         button,
         input {
+            font-family: 'Courier New', Courier, monospace;
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 10px;
@@ -36,7 +58,16 @@
         }
 
         #findButton {
+            font-family: 'Courier New', Courier, monospace;
             margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+        }
+
+        #findButton:hover {
+            background-color: #4fa3d1;
         }
 
         #closePopup {
@@ -63,6 +94,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
+
             $("#findButton").click(function () {
                 $("#popup").show();
             });
@@ -83,7 +115,7 @@
                     success: function (response) {
                         var reviews = response.message.split(', ');
                         // Wrap each review in a <div> with class "review" to add margin-bottom
-                        $("#chatbotResponse").html(reviews.map(review => `<div class="review">${review}</div>`));
+                        $("#chatbotResponse").html(reviews.map((review, index) => `<div class="review">${index + 1}. ${review}</div>`));
                         $("#popup").hide();
                     },
                     error: function (xhr, status, error) {
@@ -91,6 +123,7 @@
                     }
                 });
             });
+
 
             $("#chatbotSubmit").click(function () {
                 var userInput = $("#chatbotInput").val();
@@ -110,6 +143,8 @@
             });
 
             $("#summarizeButton").click(function () {
+                var button = $(this);
+                button.text("Summarizing...");
                 var reviews = $(".review").text();
                 $.ajax({
                     type: "POST",
@@ -118,20 +153,68 @@
                     data: JSON.stringify({ reviews: reviews }),
                     success: function (response) {
                         $("#chatbotResponse").text(response.message);
+                        button.text("Summarize");
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
                     }
                 });
             });
+
+            $("#positiveButton").click(function () {
+                var button = $(this);
+                button.text("Loading...");
+                var reviews = $(".review").text();
+                $.ajax({
+                    type: "POST",
+                    url: "/positive_reviews",
+                    contentType: "application/json",
+                    data: JSON.stringify({ reviews: reviews }),
+                    success: function (response) {
+                        $("#chatbotResponse").text(response.message);
+                        button.text("Postive");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $("#negativeButton").click(function () {
+                var button = $(this);
+                button.text("Loading...");
+                var reviews = $(".review").text();
+                $.ajax({
+                    type: "POST",
+                    url: "/negative_reviews",
+                    contentType: "application/json",
+                    data: JSON.stringify({ reviews: reviews }),
+                    success: function (response) {
+                        $("#chatbotResponse").text(response.message);
+                        button.text("Negative");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
         });
     </script>
 </head>
 
 <body>
     <h1>Toyota Review Chatbot</h1>
-    <p>Welcome to the Car Review Chatbot! Feel free to use our AI assistant to find more about Toyota cars.</p>
-    <button id="findButton">Find Car Reviews</button>
+    <p>Welcome to the Toyota Review Chatbot! Find and sort reviews on Toyota cars from real-life datasets! Feel free to
+        utilize our AI Assistant as well!</p>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Summarize:</strong> Summarizes the provided reviews.</li>
+            <li><strong>Positive:</strong> Highlights the positives from the provided reviews</li>
+            <li><strong>Negative:</strong> Highlights the negatives from the provided reviews.</li>
+        </ul>
+    </div>
+    <button id="findButton">Find Toyota Car Reviews</button>
 
     <div id="popup" style="display: none;">
         <div>
@@ -146,17 +229,18 @@
         </div>
     </div>
 
-    <div id="chatbotResponse"></div>
+    <div id="numReviews"></div> <!-- This div will display the number of reviews -->
+    <div id="chatbotResponse" style="border: 1px solid #61dafb; border-radius: 5px; padding: 20px;"></div>
 
+    <button id="summarizeButton">Summarize</button>
+    <button id="positiveButton">Positive</button>
+    <button id="negativeButton">Negative</button>
     <div>
         <label for="chatbotInput">AI Assistance:</label>
         <input type="text" id="chatbotInput" name="chatbotInput">
         <button id="chatbotSubmit">Submit</button>
     </div>
 
-    <button id="summarizeButton">Summarize</button>
-
-    <img id="carImage" src="car.png" alt="Car_Image">
 </body>
 
 </html>
