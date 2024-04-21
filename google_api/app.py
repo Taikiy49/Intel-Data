@@ -55,17 +55,6 @@ def chatbot_interaction(user_input):
     convo.send_message(user_input)
     return convo.last.text
 
-# Route to summarize the reviews
-from flask import Flask, request, jsonify
-import google.generativeai as genai
-
-app = Flask(__name__)
-
-# Configure the API key for Google Generative AI
-genai.configure(api_key="YOUR_API_KEY")
-
-# Set up the model
-model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 
 @app.route('/summarize_reviews', methods=['POST'])
 def summarize_reviews():
