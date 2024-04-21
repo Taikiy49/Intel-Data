@@ -96,7 +96,7 @@ def main():
 
 
 def get_car_review(year, word):
-    car_review = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"] and (word in example["Review"] or word.capitalize() in example["Review"]))
+    car_review = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"].split()[:] and (word in example["Review"].split()[:] or word.capitalize() in example["Review"].split()[:]))
     num_car_reviews = len(car_review)
     if len(car_review) > 0:
         return [car_review[0]["Review"], num_car_reviews]
