@@ -3,7 +3,7 @@
 genai.configure(api_key="AIzaSyApdIIDxko0YfMZ_xMatRdFSfXN2eaY8WI")
 # Overview
 This repository contains the Car Reviews Dataset, curated by [florentgbelidji/car-reviews](https://huggingface.co/datasets/florentgbelidji/car-reviews) from Hugging Face. The dataset comprises reviews of various car models along with associated metadata such as review date, author name, vehicle title, review title, review text, and rating. 
-In addition to traditional machine learning tasks, the Car Reviews Dataset can be leveraged for advanced natural language processing (NLP) tasks using powerful Large Language Models (LLMs) like LLMA2. These models excel in tasks such as sentiment analysis, text generation, and language understanding. By fine-tuning LLMA2 on the dataset, users can extract deeper insights from the reviews and enhance decision-making processes related to car purchases
+In addition to traditional machine learning tasks, the Car Reviews Dataset can be leveraged for advanced natural language processing (NLP) tasks using powerful Large Language Models (LLMs) like LLMA2. These models excel in tasks such as sentiment analysis, text generation, and language understanding. By fine-tuning LLMA2 on the dataset, users can extract deeper insights from the reviews and enhance decision-making processes related to car purchases. The web application is implemented by HTML,CSS, Flask (back-end) and Google Generative AI (Gemini) model for text generation in order to interacts with a dataset for car reviews.
 
 # Dataset 
 Contains 37,000 rows of training data.
@@ -86,7 +86,20 @@ print(f'Public URL: {public_url}')
 ```
 ngrok http http://127.0.0.1:5000
 ```
-<img width="1128" alt="Screenshot 2024-04-20 at 4 33 02 PM" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/74dcc726-c9a3-43c1-8d16-b406d486e299">
+
+Summarize the reviews by hitting summarize button below:
+
+<img width="1034" alt="summarize_all_reviews" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/933c5b71-e3b0-4dce-8dc7-7659a62d4a0d">
+
+
+Keep all positive reviews only, for example:
+
+<img width="891" alt="positive_reviews" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/f1850ee4-318f-49a2-bcea-de331860364f">
+
+
+Interact with AI Gemini chatbot:
+
+<img width="739" alt="Car_Review" src="https://github.com/Taikiy49/Intel-Data/assets/90120932/10e64c59-1aec-497e-993d-5408b8f76acd">
 
 Domain from ngrok sever: https://2de2-164-67-154-31.ngrok-free.app
 # Community
