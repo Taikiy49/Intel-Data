@@ -1,6 +1,7 @@
 import requests
 import google.generativeai as genai
 from datasets import load_dataset
+import time
 
 # Configure the API key for Google Generative AI
 genai.configure(api_key="AIzaSyApdIIDxko0YfMZ_xMatRdFSfXN2eaY8WI")
@@ -59,19 +60,29 @@ def chatbot_interaction(user_input):
 def main():
     print('-' * 60)
     print("Welcome to the Toyota Review AI Generator!")
-    print("We will help you find reviews about your favorite Toyota!")
-    print('Type "!review" to start your first search!')
+    time.sleep(1)
+    print("We will help you find reviews for your favorite Toyota!")
+    time.sleep(1)
+    print('Type "!find" to start your search!')
+    time.sleep(1)
     print('Type "!help" for more information!')
+    time.sleep(1)
     print('-' * 60)
     while True:
         user_input = input("[USER]: ")
-        if "!review" in user_input.lower():
+        if "!find" in user_input.lower():
+            model = input("Please specify the car model: ").capitalize()
             year = input("Please specify the car year: ").capitalize()
-            word = input("What is that one word that you are looking for in a car? ").capitalize()
+            word = input("What is that one word that you are looking for in a car? ")
             car_review = get_car_review(year, word)
-            if car_review:
+            if car_review[0]:
                 print(f"You described a {year} Toyota as: {word}")
-                print(car_review)
+                time.sleep(1)
+                print(f"The total number of car reviews that matched your query was: {car_review[1]}\n")
+                time.sleep(1)
+                print("---------- We selected a random car review for you! ----------")
+                time.sleep(1)
+                print(car_review[0])
             else:
                 print("Car review was not found...")
         elif "!help" in user_input.lower():
@@ -83,11 +94,12 @@ def main():
 
 
 def get_car_review(year, word):
-    car_review = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"] and word in example["Review"])
+    car_review = car_reviews_dataset["train"].filter(lambda example: 'Toyota' in example["Vehicle_Title"] and year in example["Vehicle_Title"] and (word in example["Review"] or word.capitalize() in example["Review"]))
+    num_car_reviews = len(car_review)
     if len(car_review) > 0:
-        return car_review[0]["Review"]
+        return [car_review[0]["Review"], num_car_reviews]
     else:
-        return None
+        return [None, 0]
 
 
 
